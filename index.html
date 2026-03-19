@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Brasserie Deruelle — Carte &amp; Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #2B3282;
+  --red: #D93030;
+  --cream: #EDE5D5;
+  --cream-light: #F5EFE3;
+  --white: #ffffff;
+  --text-dark: #1E2468;
+  --text-mid: #5a4f7a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--cream);
+  font-family: 'Source Sans 3', sans-serif;
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+/* ── HEADER ── */
+.header {
+  background: var(--navy);
+  color: white;
+  text-align: center;
+  padding: 28px 20px 22px;
+}
+.logo-svg { width: 100px; height: 118px; margin: 0 auto 12px; display: block; }
+.header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: white;
+  margin-bottom: 8px;
+}
+.header-info { font-size: 0.8rem; opacity: 0.8; line-height: 1.9; }
+.header-info a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+/* ── LANG SWITCHER ── */
+.lang-switcher { position: relative; display: inline-block; margin-top: 14px; }
+.lang-btn {
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.35);
+  color: white; padding: 7px 16px; border-radius: 20px; cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif; font-size: 0.82rem; font-weight: 600;
+  transition: background 0.2s; -webkit-tap-highlight-color: transparent;
+}
+.lang-btn:hover { background: rgba(255,255,255,0.25); }
+.lang-menu {
+  display: none; position: absolute; top: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%); background: white; border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18); overflow: hidden; z-index: 200; min-width: 160px;
+}
+.lang-menu.open { display: block; }
+.lang-menu button {
+  display: block; width: 100%; padding: 10px 16px; border: none; background: none;
+  text-align: left; cursor: pointer; font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.88rem; color: #1E2468; transition: background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.lang-menu button:hover { background: #EDE5D5; }
+.lang-menu button.active { font-weight: 700; color: #2B3282; background: #F5EFE3; }
+/* ── TOP NAV (sticky) ── */
+.tab-nav {
+  position: sticky; top: 0; width: 100%;
+  background: var(--navy); display: flex;
+  border-bottom: 3px solid var(--red); z-index: 100;
+}
+.tab-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 9px 2px 7px; background: none; border: none;
+  color: rgba(255,255,255,0.45); cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif; font-size: 0.58rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.04em; gap: 3px;
+  transition: color 0.2s, background 0.2s; -webkit-tap-highlight-color: transparent;
+}
+.tab-btn.active { color: white; background: rgba(217,48,48,0.18); border-bottom: 2px solid var(--red); }
+.tab-icon { font-size: 1.2rem; line-height: 1; }
+/* ── PANELS ── */
+.tab-panel { display: none; padding: 18px 14px 32px; }
+.tab-panel.active { display: block; animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+/* ── SECTION TITLE ── */
+.section-title {
+  font-family: 'Playfair Display', serif; color: var(--red); font-size: 1.25rem;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+  text-align: center; margin: 24px 0 12px;
+}
+.section-title::after {
+  content: ''; display: block; width: 44px; height: 2px;
+  background: var(--red); margin: 6px auto 0;
+}
+/* ── CARDS ── */
+.card {
+  background: var(--white); border-radius: 12px; padding: 16px;
+  margin-bottom: 14px; box-shadow: 0 2px 10px rgba(43,50,130,0.09);
+}
+/* ── ITEM ROWS ── */
+.item-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 9px 0; border-bottom: 1px solid rgba(43,50,130,0.07); gap: 8px;
+}
+.item-row:last-child { border-bottom: none; padding-bottom: 0; }
+.item-row:first-child { padding-top: 0; }
+.item-left { flex: 1; min-width: 0; }
+.item-name { font-size: 0.95rem; font-weight: 600; color: var(--text-dark); }
+.item-desc { font-size: 0.78rem; color: var(--text-mid); margin-top: 2px; font-style: italic; }
+.item-price { font-weight: 700; color: var(--navy); font-size: 0.95rem; white-space: nowrap; text-align: right; }
+/* ── FORMULE CARDS ── */
+.formule-card {
+  background: var(--cream-light); border: 2px solid var(--navy);
+  border-radius: 14px; padding: 20px 18px; margin-bottom: 14px;
+}
+.formule-header { text-align: center; margin-bottom: 16px; }
+.formule-name {
+  display: block; font-family: 'Playfair Display', serif; color: var(--red);
+  font-size: 1.1rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.04em; margin-bottom: 4px;
+}
+.formule-price {
+  display: block; font-size: 2rem; font-weight: 700;
+  color: var(--navy); line-height: 1.1; margin-bottom: 2px;
+}
+.formule-sub { font-size: 0.78rem; color: var(--text-mid); }
+/* ── FORMULA PILLS ── */
+.formula-steps {
+  display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: center; gap: 8px; margin: 14px 0;
+}
+.formula-step {
+  background: var(--navy); color: white; padding: 7px 16px; border-radius: 24px;
+  font-size: 0.88rem; font-weight: 700; cursor: pointer; border: none;
+  font-family: 'Source Sans 3', sans-serif; transition: background 0.15s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.formula-step:active { background: var(--red); transform: scale(0.96); }
+.formula-step.no-link { background: rgba(43,50,130,0.25); color: var(--text-dark); cursor: default; }
+.formula-plus { color: var(--red); font-weight: 900; font-size: 1.1rem; }
+.formula-or {
+  width: 100%; text-align: center; font-size: 0.78rem; font-weight: 700;
+  color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.1em; margin: -2px 0;
+}
+.formula-divider { width: 100%; border: none; border-top: 1px dashed rgba(43,50,130,0.2); margin: 4px 0; }
+/* ── FORMULE SECTIONS ── */
+.formule-section { margin-top: 12px; }
+.formule-label {
+  font-weight: 700; color: var(--navy); font-size: 0.75rem;
+  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px;
+}
+.formule-list { list-style: none; }
+.formule-list li {
+  font-size: 0.88rem; color: var(--text-mid); padding: 3px 0 3px 14px;
+  position: relative; line-height: 1.4;
+}
+.formule-list li::before { content: '·'; position: absolute; left: 4px; color: var(--red); font-weight: 900; }
+.note { font-size: 0.72rem; color: var(--text-mid); font-style: italic; text-align: center; margin-top: 10px; }
+/* ── SUB-NAV CHIPS ── */
+.sub-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.sub-nav-btn {
+  padding: 7px 14px; border-radius: 20px; border: 1.5px solid var(--navy);
+  background: white; color: var(--navy); font-size: 0.8rem; font-weight: 700;
+  cursor: pointer; font-family: 'Source Sans 3', sans-serif; transition: all 0.18s;
+  -webkit-tap-highlight-color: transparent;
+}
+.sub-nav-btn:active, .sub-nav-btn.active { background: var(--navy); color: white; }
+/* ── SUB HEADING ── */
+.sub-heading {
+  font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700;
+  color: var(--navy); text-transform: uppercase; letter-spacing: 0.05em; margin: 16px 0 6px;
+}
+/* ── PRICE TABLE ── */
+.price-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.price-table th {
+  background: var(--navy); color: white; padding: 7px 6px;
+  font-weight: 600; text-align: center;
+}
+.price-table th:first-child { text-align: left; padding-left: 10px; }
+.price-table td {
+  padding: 8px 6px; border-bottom: 1px solid rgba(43,50,130,0.07);
+  color: var(--text-dark); text-align: center;
+}
+.price-table td:first-child { text-align: left; padding-left: 10px; font-weight: 600; }
+.price-table tr:last-child td { border-bottom: none; }
+.price-table tr:nth-child(even) td { background: rgba(237,229,213,0.4); }
+/* ── BADGE ── */
+.badge {
+  display: inline-block; padding: 1px 7px; border-radius: 20px;
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+  vertical-align: middle; margin-left: 4px;
+}
+.badge-vege { background: #4CAF50; color: white; }
+/* ── RESPONSIVE ── */
+@media (min-width: 560px) {
+  body { max-width: 540px; margin: 0 auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <svg class="logo-svg" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+    <rect x="14" y="14" width="116" height="160" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+    <text x="5" y="148" font-family="Georgia, 'Times New Roman', serif" font-size="168" font-weight="bold"
+      fill="#D93030" stroke="#1E2468" stroke-width="5" paint-order="stroke">B</text>
+    <text x="78" y="232" font-family="Georgia, 'Times New Roman', serif" font-size="168" font-weight="bold"
+      fill="#D93030" stroke="#1E2468" stroke-width="5" paint-order="stroke">D</text>
+  </svg>
+  <h1>Brasserie Deruelle</h1>
+  <div class="header-info">
+    <div>35 Boulevard Eugène Deruelle 69003, Lyon</div>
+    <div><a href="tel:0478600156">04 78 60 01 56</a></div>
+    <div><a href="https://brasseriederuelle.fr" target="_blank">brasseriederuelle.fr</a></div>
+  </div>
+  <div class="lang-switcher">
+    <button class="lang-btn" onclick="toggleLangMenu()">
+      <span id="lang-current">🇫🇷 Français</span> ▾
+    </button>
+    <div class="lang-menu" id="lang-menu">
+      <button onclick="switchLang('fr')" data-lang="fr" class="active">🇫🇷 Français</button>
+      <button onclick="switchLang('en')" data-lang="en">🇬🇧 English</button>
+      <button onclick="switchLang('es')" data-lang="es">🇪🇸 Español</button>
+      <button onclick="switchLang('it')" data-lang="it">🇮🇹 Italiano</button>
+    </div>
+  </div>
+</header>
+
+<!-- TOP STICKY NAV -->
+<nav class="tab-nav" id="tab-nav">
+  <button class="tab-btn active" data-tab="menu" onclick="switchTab('menu')">
+    <span class="tab-icon">📋</span><span data-i18n="tab-menu">Menu</span>
+  </button>
+  <button class="tab-btn" data-tab="entree" onclick="switchTab('entree')">
+    <span class="tab-icon">🥗</span><span data-i18n="tab-entree">Entrée</span>
+  </button>
+  <button class="tab-btn" data-tab="plat" onclick="switchTab('plat')">
+    <span class="tab-icon">🍽️</span><span data-i18n="tab-plat">Plat</span>
+  </button>
+  <button class="tab-btn" data-tab="boisson" onclick="switchTab('boisson')">
+    <span class="tab-icon">🍷</span><span data-i18n="tab-boisson">Boisson</span>
+  </button>
+  <button class="tab-btn" data-tab="dessert" onclick="switchTab('dessert')">
+    <span class="tab-icon">🍮</span><span data-i18n="tab-dessert">Dessert</span>
+  </button>
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PANEL : MENU -->
+<!-- ══════════════════════════════════════════ -->
+<div id="panel-menu" class="tab-panel active">
+
+  <div class="section-title" data-i18n="sec-formules-jour">Formules du Jour</div>
+  <p style="text-align:center;font-size:0.77rem;color:var(--text-mid);font-style:italic;margin-bottom:16px;" data-i18n="hdr-subtitle">Du lundi au vendredi · Concocté par le Chef</p>
+
+  <!-- Menu du jour + boisson + café 23€ -->
+  <div class="formule-card">
+    <div class="formule-header">
+      <span class="formule-name" data-i18n="fml-menu-jour-boisson">Menu du jour + boisson + café</span>
+      <span class="formule-price">23€</span>
+    </div>
+    <div class="formula-steps">
+      <span class="formula-step no-link" data-i18n="pill-entree">Entrée</span>
+      <span class="formula-plus">+</span>
+      <span class="formula-step no-link" data-i18n="pill-plat">Plat</span>
+      <span class="formula-plus">+</span>
+      <button class="formula-step" onclick="switchTab('dessert')" data-i18n="pill-dessert">Dessert</button>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-boisson-choix">Boisson au choix</div>
+      <ul class="formule-list">
+        <li>Gallia 25cl</li>
+        <li>Evian 50cl ou Badoit 50cl</li>
+        <li>1 verre Côtes du Rhône, Rosé ou Mâcon</li>
+      </ul>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-cafe-inclus">+ 1 Café inclus</div>
+    </div>
+    <p class="note" data-i18n="note-cafe-gourmand">Café gourmand supplément 2€</p>
+  </div>
+
+  <!-- Menu du jour 19,90€ -->
+  <div class="formule-card">
+    <div class="formule-header">
+      <span class="formule-name" data-i18n="fml-menu-jour">Menu du jour</span>
+      <span class="formule-price">19,90€</span>
+    </div>
+    <div class="formula-steps">
+      <span class="formula-step no-link" data-i18n="pill-entree">Entrée</span>
+      <span class="formula-plus">+</span>
+      <span class="formula-step no-link" data-i18n="pill-plat">Plat</span>
+      <span class="formula-plus">+</span>
+      <button class="formula-step" onclick="switchTab('dessert')" data-i18n="pill-dessert">Dessert</button>
+    </div>
+    <p class="note" data-i18n="note-cafe-gourmand">Café gourmand supplément 2€</p>
+  </div>
+
+  <!-- Menu 2 plats 17,80€ -->
+  <div class="formule-card">
+    <div class="formule-header">
+      <span class="formule-name" data-i18n="fml-2-plats">Menu 2 plats</span>
+      <span class="formule-price">17,80€</span>
+    </div>
+    <div class="formula-steps">
+      <span class="formula-step no-link" data-i18n="pill-entree">Entrée</span>
+      <span class="formula-plus">+</span>
+      <span class="formula-step no-link" data-i18n="pill-plat">Plat</span>
+    </div>
+    <div class="formula-or" data-i18n="pill-ou">— ou —</div>
+    <div class="formula-steps">
+      <span class="formula-step no-link" data-i18n="pill-plat">Plat</span>
+      <span class="formula-plus">+</span>
+      <button class="formula-step" onclick="switchTab('dessert')" data-i18n="pill-dessert">Dessert</button>
+    </div>
+    <p class="note" data-i18n="note-cafe-gourmand">Café gourmand supplément 2€</p>
+  </div>
+
+  <!-- Plat du jour 13,50€ -->
+  <div class="formule-card">
+    <div class="formule-header">
+      <span class="formule-name" data-i18n="fml-plat-jour">Plat du jour</span>
+      <span class="formule-price">13,50€</span>
+    </div>
+    <div class="formula-steps">
+      <span class="formula-step no-link" data-i18n="pill-plat">Plat</span>
+    </div>
+  </div>
+
+  <div class="section-title" data-i18n="sec-menu-brasserie">Menu Brasserie</div>
+  <div class="formule-card">
+    <div class="formule-header">
+      <span class="formule-name" data-i18n="fml-brasserie">Menu Brasserie</span>
+      <div style="display:flex;justify-content:center;gap:14px;margin-top:4px;">
+        <span style="font-size:1rem;font-weight:700;color:var(--navy);" data-i18n="lbl-3plats">3 plats — 29€</span>
+        <span style="font-size:1rem;font-weight:700;color:var(--navy);" data-i18n="lbl-2plats">2 plats — 27€</span>
+      </div>
+    </div>
+    <div class="formula-steps">
+      <span class="formula-step no-link" data-i18n="pill-entree">Entrée</span>
+      <span class="formula-plus">+</span>
+      <span class="formula-step no-link" data-i18n="pill-plat">Plat</span>
+      <span class="formula-plus">+</span>
+      <button class="formula-step" onclick="switchTab('dessert')" data-i18n="pill-dessert">Dessert</button>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-entrees-choix">Entrées au choix</div>
+      <ul class="formule-list">
+        <li>Salade de lentilles</li>
+        <li>Saucisson brioché</li>
+        <li>Oeuf meurette</li>
+      </ul>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-plats-choix">Plats au choix</div>
+      <ul class="formule-list">
+        <li>Tête de veau</li>
+        <li>Boeuf bourguignon</li>
+        <li>Filet de brochet sauce nantua</li>
+        <li>Filet de canette sauce aux cèpes</li>
+      </ul>
+      <p style="font-size:0.75rem;color:var(--text-mid);font-style:italic;margin-top:4px;" data-i18n="lbl-accompagnement">+ accompagnement (voir carte)</p>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-dessert-choix">Dessert maison au choix</div>
+    </div>
+    <p class="note" data-i18n="note-cafe-gourmand">Café gourmand supplément 2€</p>
+  </div>
+
+  <div class="section-title" data-i18n="sec-menu-bistrot">Menu Bistrot</div>
+  <div class="formule-card">
+    <div class="formule-header">
+      <span class="formule-name" data-i18n="fml-bistrot">Menu Bistrot</span>
+      <span class="formule-price">27€</span>
+    </div>
+    <div class="formula-steps">
+      <span class="formula-step no-link" data-i18n="pill-entree">Entrée</span>
+      <span class="formula-plus">+</span>
+      <span class="formula-step no-link" data-i18n="pill-plat">Plat</span>
+      <span class="formula-plus">+</span>
+      <button class="formula-step" onclick="switchTab('dessert')" data-i18n="pill-dessert">Dessert</button>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-entrees-choix">Entrées au choix</div>
+      <ul class="formule-list">
+        <li>Salade lyonnaise</li>
+        <li>Terrine maison</li>
+        <li>Ravioles (sauce au choix)</li>
+      </ul>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-plats-choix">Plats au choix</div>
+      <ul class="formule-list">
+        <li>Saucisson au vin rouge</li>
+        <li>Andouillette sauce moutarde à l'ancienne</li>
+        <li>Choucroute garnie</li>
+        <li>Bavette ou pièce de boeuf</li>
+        <li>Tartare de boeuf 180 grammes</li>
+        <li>Filet de truite meunière</li>
+      </ul>
+      <p style="font-size:0.75rem;color:var(--text-mid);font-style:italic;margin-top:4px;" data-i18n="lbl-accompagnement">+ accompagnement (voir carte)</p>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-dessert-choix">Dessert maison au choix</div>
+    </div>
+    <p class="note" data-i18n="note-cafe-gourmand">Café gourmand supplément 2€</p>
+  </div>
+
+  <div class="section-title" data-i18n="sec-formule-zinc">Formule Zinc</div>
+  <div class="formule-card">
+    <div class="formule-header">
+      <span class="formule-name" data-i18n="fml-zinc">Formule Zinc</span>
+      <span class="formule-price">21€</span>
+      <span class="formule-sub" data-i18n="fml-zinc-sub">1 plat au choix + boisson + dessert</span>
+    </div>
+    <div class="formula-steps">
+      <span class="formula-step no-link" data-i18n="pill-plat">Plat</span>
+      <span class="formula-plus">+</span>
+      <button class="formula-step" onclick="switchTab('boisson')" data-i18n="pill-boisson">Boisson</button>
+      <span class="formula-plus">+</span>
+      <button class="formula-step" onclick="switchTab('dessert')" data-i18n="pill-dessert">Dessert</button>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-plats-choix">Plats au choix</div>
+      <ul class="formule-list">
+        <li>Salade César</li>
+        <li>Salade Chirasi</li>
+        <li>Salade lyonnaise</li>
+        <li>Salade de chèvre pané</li>
+        <li>Tagliatelles carbonara</li>
+        <li>Tagliatelles sauce aux bolets</li>
+        <li>Tagliatelles sauce tomate et basilic</li>
+        <li>Ravioles (sauce aux bolets ou tomate et basilic, salade verte)</li>
+      </ul>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-boisson-choix">Boisson au choix</div>
+      <ul class="formule-list">
+        <li data-i18n="fml-zinc-boisson-desc">Badoit 33cl, Soda, Gallia 25cl ou Côtes du Rhône 12cl</li>
+      </ul>
+    </div>
+    <p class="note" data-i18n="note-cafe-gourmand">Café gourmand supplément 2€</p>
+  </div>
+
+  <div class="section-title" data-i18n="sec-formule-comptoir">Formule Comptoir</div>
+  <div class="formule-card">
+    <div class="formule-header">
+      <span class="formule-name" data-i18n="fml-comptoir">Formule Comptoir</span>
+      <span class="formule-price">27,50€</span>
+      <span class="formule-sub" data-i18n="fml-comptoir-sub">1 plat au choix + boisson + dessert</span>
+    </div>
+    <div class="formula-steps">
+      <span class="formula-step no-link" data-i18n="pill-plat">Plat</span>
+      <span class="formula-plus">+</span>
+      <button class="formula-step" onclick="switchTab('boisson')" data-i18n="pill-boisson">Boisson</button>
+      <span class="formula-plus">+</span>
+      <button class="formula-step" onclick="switchTab('dessert')" data-i18n="pill-dessert">Dessert</button>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-plats-choix">Plats au choix</div>
+      <ul class="formule-list">
+        <li data-i18n="item-fish-chips">Fish &amp; Chips de cabillaud</li>
+        <li>Boeuf bourguignon, tagliatelles</li>
+        <li>Andouillette sauce moutarde à l'ancienne, gratin dauphinois</li>
+        <li>Saucisson au vin rouge et lentilles</li>
+        <li>Choucroute garnie</li>
+        <li>Tête de veau</li>
+        <li>Tartare de boeuf 180 grammes</li>
+        <li>Escalope de veau milanaise, frites maison</li>
+        <li data-i18n="item-hamburger">Hamburger du moment</li>
+        <li data-i18n-html="item-hamburger-vege-html">Hamburger végétarien <span class="badge badge-vege">végé</span></li>
+      </ul>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-boisson-choix">Boisson au choix</div>
+      <ul class="formule-list">
+        <li data-i18n="fml-comptoir-boisson-desc">Evian 50cl, Soda, Affligem 25cl ou Côtes du Rhône 12cl</li>
+      </ul>
+    </div>
+    <p class="note" data-i18n="note-cafe-gourmand">Café gourmand supplément 2€</p>
+  </div>
+
+  <div class="section-title" data-i18n="sec-menu-enfant">Menu Enfant</div>
+  <div class="formule-card" style="border-color:var(--red);">
+    <div class="formule-header">
+      <span class="formule-name" data-i18n="fml-enfant">Menu Enfant</span>
+      <span class="formule-price">9€</span>
+      <span class="formule-sub" data-i18n="note-enfant-age">Jusqu'à 10 ans</span>
+    </div>
+    <div class="formula-steps">
+      <span class="formula-step no-link" data-i18n="pill-plat">Plat</span>
+      <span class="formula-plus">+</span>
+      <button class="formula-step" onclick="switchTab('dessert')" data-i18n="pill-dessert">Dessert</button>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-1plat-choix">1 Plat au choix</div>
+      <ul class="formule-list">
+        <li>Pizza Reine</li>
+        <li>Pizza Margherita</li>
+        <li data-i18n="item-steak-frites">Steak haché frites</li>
+      </ul>
+    </div>
+    <div class="formule-section">
+      <div class="formule-label" data-i18n="lbl-1dessert-choix">1 Dessert au choix</div>
+      <ul class="formule-list">
+        <li data-i18n="item-glace-2boules">Glace 2 boules</li>
+        <li>Panna cotta</li>
+        <li>Crème caramel</li>
+        <li data-i18n="item-mousse-choco">Mousse au chocolat</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /panel-menu -->
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PANEL : ENTRÉE -->
+<!-- ══════════════════════════════════════════ -->
+<div id="panel-entree" class="tab-panel">
+
+  <div class="section-title" data-i18n="sec-salades">Salades</div>
+  <div class="card">
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-salade-lyonnaise">Salade lyonnaise</div>
+        <div class="item-desc" data-i18n="desc-salade-lyonnaise">Salade, lardons, oeuf poché, croûtons</div>
+      </div>
+      <div class="item-price">13,50€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-salade-cesar">Salade César</div>
+        <div class="item-desc" data-i18n="desc-salade-cesar">Salade, poulet pané, parmesan, oeuf</div>
+      </div>
+      <div class="item-price">14,50€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-salade-chirasi">Salade Chirasi</div>
+        <div class="item-desc" data-i18n="desc-salade-chirasi">Salade, avocat, saumon mariné, graines de sésame</div>
+      </div>
+      <div class="item-price">15,00€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-salade-chevre">Salade de chèvre pané</div>
+      </div>
+      <div class="item-price">15,00€</div>
+    </div>
+  </div>
+
+  <div class="section-title" data-i18n="sec-entrees">Entrées</div>
+  <div class="card">
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-ravioles">Ravioles</div>
+        <div class="item-desc" data-i18n="desc-ravioles">Sauce aux bolets ou sauce tomate et basilic, salade verte</div>
+      </div>
+      <div class="item-price">13,50€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left"><div class="item-name" data-i18n="item-grosse-quiche">Grosse quiche</div></div>
+      <div class="item-price">14,00€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left"><div class="item-name" data-i18n="item-salade-lentilles">Petite salade de lentilles</div></div>
+      <div class="item-price">6,00€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left"><div class="item-name" data-i18n="item-saucisson-brioche">Saucisson brioché</div></div>
+      <div class="item-price">7,00€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left"><div class="item-name" data-i18n="item-oeuf-meurette">Oeuf meurette</div></div>
+      <div class="item-price">6,00€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left"><div class="item-name" data-i18n="item-terrine">Terrine maison</div></div>
+      <div class="item-price">7,00€</div>
+    </div>
+  </div>
+
+</div><!-- /panel-entree -->
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PANEL : PLAT -->
+<!-- ══════════════════════════════════════════ -->
+<div id="panel-plat" class="tab-panel">
+
+  <div class="sub-nav">
+    <button class="sub-nav-btn" onclick="scrollToSection('plat-viande', this)" data-i18n="sub-viande">🥩 Viande</button>
+    <button class="sub-nav-btn" onclick="scrollToSection('plat-poisson', this)" data-i18n="sub-poisson">🐟 Poisson</button>
+    <button class="sub-nav-btn" onclick="scrollToSection('plat-pizza', this)" data-i18n="sub-pizza">🍕 Pizza</button>
+    <button class="sub-nav-btn" onclick="scrollToSection('plat-pates', this)" data-i18n="sub-pates">🍝 Pâtes</button>
+  </div>
+
+  <!-- VIANDE -->
+  <div id="plat-viande" class="section-title" data-i18n="sec-viandes">Viandes</div>
+  <p class="note" style="margin-bottom:10px;" data-i18n="note-viandes">* L'origine de nos viandes est affichée dans notre brasserie</p>
+  <div class="card">
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-faux-filet">Faux-filet</div></div><div class="item-price">24,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-entrecote">Entrecôte</div></div><div class="item-price">27,00€</div></div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-tartare">Tartare de boeuf</div>
+        <div class="item-desc" data-i18n="desc-tartare">180 g / 270 g</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="item-price">20,00€</div>
+        <div class="item-price">23,00€</div>
+      </div>
+    </div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-bavette">Bavette</div></div><div class="item-price">20,00€</div></div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-andouillette">Andouillette sauce moutarde à l'ancienne</div>
+        <div class="item-desc" data-i18n="desc-andouillette">Gratin dauphinois</div>
+      </div>
+      <div class="item-price">16,50€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-boeuf-bourguignon">Boeuf bourguignon</div>
+        <div class="item-desc" data-i18n="desc-boeuf-bourguignon">Tagliatelles</div>
+      </div>
+      <div class="item-price">19,00€</div>
+    </div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-choucroute">Choucroute garnie</div></div><div class="item-price">21,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-tete-veau">Tête de veau</div></div><div class="item-price">20,00€</div></div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-saucisson-vin">Saucisson au vin rouge</div>
+        <div class="item-desc" data-i18n="desc-saucisson-vin">Lentilles</div>
+      </div>
+      <div class="item-price">16,00€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-canette-cepes">Filet de canette sauce aux cèpes</div>
+        <div class="item-desc" data-i18n="desc-canette-cepes">Pommes de terre sautées, flan de légumes</div>
+      </div>
+      <div class="item-price">18,00€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-escalope-veau">Escalope de veau milanaise</div>
+        <div class="item-desc" data-i18n="desc-escalope-veau">Frites maison</div>
+      </div>
+      <div class="item-price">22,00€</div>
+    </div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-hamburger">Hamburger du moment</div></div><div class="item-price">18,00€</div></div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n-html="item-hamburger-vege-html">Hamburger végétarien <span class="badge badge-vege">végé</span></div>
+      </div>
+      <div class="item-price">16,00€</div>
+    </div>
+  </div>
+
+  <!-- POISSON -->
+  <div id="plat-poisson" class="section-title" data-i18n="sec-poissons">Poissons</div>
+  <div class="card">
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-fish-chips">Fish &amp; Chips de cabillaud</div></div><div class="item-price">19,00€</div></div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-brochet">Filet de brochet sauce nantua</div>
+        <div class="item-desc" data-i18n="desc-brochet">Pommes de terre sautées, flan de légumes</div>
+      </div>
+      <div class="item-price">21,00€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-truite">Filet de truite meunière</div>
+        <div class="item-desc" data-i18n="desc-truite">Pommes de terre sautées, flan de légumes</div>
+      </div>
+      <div class="item-price">20,00€</div>
+    </div>
+  </div>
+
+  <!-- PIZZA -->
+  <div id="plat-pizza" class="section-title" data-i18n="sec-pizzas">Pizzas</div>
+  <div class="sub-heading" style="text-align:center;color:var(--red);font-size:0.85rem;margin-top:-4px;" data-i18n="lbl-base-tomate">Base Tomate</div>
+  <div class="card">
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name">Reine</div>
+        <div class="item-desc" data-i18n="desc-reine">Tomate, fromage, jambon blanc, champignons, jaune d'oeuf</div>
+      </div>
+      <div class="item-price">14,00€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name">Deux Saumon</div>
+        <div class="item-desc" data-i18n="desc-deux-saumon">Tomate, fromage, saumon frais, saumon fumé, crème</div>
+      </div>
+      <div class="item-price">15,50€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name">Quatre Fromage</div>
+        <div class="item-desc" data-i18n="desc-quatre-fromage">Tomate, taleggio, provolone, chèvre, gorgonzola</div>
+      </div>
+      <div class="item-price">16,00€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name">Margherita <span class="badge badge-vege">végé</span></div>
+        <div class="item-desc" data-i18n="desc-margherita">Tomate, mozzarella, basilic</div>
+      </div>
+      <div class="item-price">13,50€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name">Super Phœnix</div>
+        <div class="item-desc" data-i18n="desc-super-phoenix">Tomate, chorizo, viande hachée, merguez, jaune d'oeuf</div>
+      </div>
+      <div class="item-price">15,50€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name">Deruelle</div>
+        <div class="item-desc" data-i18n="desc-deruelle">Tomate, viande hachée, champignons, crème, jaune d'oeuf</div>
+      </div>
+      <div class="item-price">15,00€</div>
+    </div>
+  </div>
+  <div class="sub-heading" style="text-align:center;color:var(--red);font-size:0.85rem;" data-i18n="lbl-base-creme">Base Crème</div>
+  <div class="card">
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name">Princesse</div>
+        <div class="item-desc" data-i18n="desc-princesse">Crème épaisse, fromage, jambon blanc, champignons, jaune d'oeuf</div>
+      </div>
+      <div class="item-price">15,50€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name">Nordique</div>
+        <div class="item-desc" data-i18n="desc-nordique">Crème épaisse, fromage, saumon frais, saumon fumé, jaune d'oeuf</div>
+      </div>
+      <div class="item-price">16,50€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name">Spéciale Fromage</div>
+        <div class="item-desc" data-i18n="desc-speciale-fromage">Crème épaisse, taleggio, provolone, chèvre, gorgonzola</div>
+      </div>
+      <div class="item-price">16,50€</div>
+    </div>
+  </div>
+
+  <!-- PÂTES -->
+  <div id="plat-pates" class="section-title" data-i18n="sec-pates">Pâtes</div>
+  <div class="card">
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-tagliatelles-carbonara">Tagliatelles carbonara</div></div><div class="item-price">14,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-tagliatelles-bolets">Tagliatelles sauce aux bolets</div></div><div class="item-price">15,00€</div></div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n-html="item-tagliatelles-tomate-html">Tagliatelles sauce tomate et basilic <span class="badge badge-vege">végé</span></div>
+      </div>
+      <div class="item-price">13,50€</div>
+    </div>
+  </div>
+
+</div><!-- /panel-plat -->
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PANEL : BOISSON -->
+<!-- ══════════════════════════════════════════ -->
+<div id="panel-boisson" class="tab-panel">
+
+  <div class="sub-nav">
+    <button class="sub-nav-btn" onclick="scrollToSection('bois-bieres', this)" data-i18n="sub-bieres">🍺 Bières</button>
+    <button class="sub-nav-btn" onclick="scrollToSection('bois-vins', this)" data-i18n="sub-vins">🍷 Vins</button>
+    <button class="sub-nav-btn" onclick="scrollToSection('bois-aperitifs', this)" data-i18n="sub-aperitifs">🥂 Apéritifs</button>
+    <button class="sub-nav-btn" onclick="scrollToSection('bois-cocktails', this)" data-i18n="sub-cocktails">🍹 Cocktails</button>
+    <button class="sub-nav-btn" onclick="scrollToSection('bois-eaux', this)" data-i18n="sub-eaux">💧 Eaux</button>
+    <button class="sub-nav-btn" onclick="scrollToSection('bois-sodas', this)" data-i18n="sub-sodas-jus">🥤 Sodas &amp; Jus</button>
+    <button class="sub-nav-btn" onclick="scrollToSection('bois-chaudes', this)" data-i18n="sub-chaudes">☕ Chaudes</button>
+  </div>
+
+  <!-- BIÈRES -->
+  <div id="bois-bieres" class="section-title" data-i18n="sec-bieres-pression">Bières Pression</div>
+  <div class="card" style="overflow-x:auto;">
+    <table class="price-table">
+      <thead>
+        <tr><th data-i18n="th-biere">Bière</th><th>25cl</th><th>50cl</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Gallia blonde</td><td>3,80€</td><td>5,50€</td></tr>
+        <tr><td>Gallia IPA</td><td>5,00€</td><td>6,90€</td></tr>
+        <tr><td>Affligem blonde</td><td>4,10€</td><td>6,00€</td></tr>
+        <tr><td data-i18n="item-biere-du-moment">Bière du moment</td><td>4,10€</td><td>6,00€</td></tr>
+        <tr><td>Monaco</td><td>4,00€</td><td>6,00€</td></tr>
+        <tr><td data-i18n="item-biere-sirop">Bière sirop</td><td>4,00€</td><td>5,80€</td></tr>
+        <tr><td data-i18n="item-panache">Panaché</td><td>3,50€</td><td>5,50€</td></tr>
+        <tr><td data-i18n="item-picon-biere">Picon bière</td><td>4,50€</td><td>7,80€</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- VINS -->
+  <div id="bois-vins" class="section-title" data-i18n="sec-vins">Vins</div>
+  <div class="sub-heading" data-i18n="sub-rouges">Rouges</div>
+  <div class="card" style="overflow-x:auto;">
+    <table class="price-table">
+      <thead><tr><th data-i18n="th-vin">Vin</th><th>12cl</th><th>25cl</th><th>46cl</th><th>75cl</th></tr></thead>
+      <tbody>
+        <tr><td>Côtes du Rhône</td><td>3,90€</td><td>7,50€</td><td>10€</td><td>25€</td></tr>
+        <tr><td>Crozes-Hermitage</td><td>5,00€</td><td>10,50€</td><td>16,50€</td><td>39€</td></tr>
+        <tr><td>Saint Joseph</td><td>5,50€</td><td>12€</td><td>19€</td><td>45€</td></tr>
+        <tr><td>Brouilly</td><td>—</td><td>—</td><td>—</td><td>30€</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sub-heading" data-i18n="sub-blancs">Blancs</div>
+  <div class="card" style="overflow-x:auto;">
+    <table class="price-table">
+      <thead><tr><th data-i18n="th-vin">Vin</th><th>12cl</th><th>25cl</th><th>46cl</th><th>75cl</th></tr></thead>
+      <tbody>
+        <tr><td>Mâcon</td><td>4,00€</td><td>8,90€</td><td>17€</td><td>29€</td></tr>
+        <tr><td>Viognier</td><td>3,90€</td><td>8,00€</td><td>15,50€</td><td>22€</td></tr>
+        <tr><td>Chardonnay</td><td>3,50€</td><td>7,00€</td><td>10€</td><td>40€</td></tr>
+        <tr><td>Côtes de Gascogne</td><td>5,00€</td><td>—</td><td>—</td><td>21€</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sub-heading" data-i18n="sub-rose">Rosé</div>
+  <div class="card" style="overflow-x:auto;">
+    <table class="price-table">
+      <thead><tr><th data-i18n="th-vin">Vin</th><th>12cl</th><th>25cl</th><th>46cl</th><th>75cl</th></tr></thead>
+      <tbody>
+        <tr><td>Rosé</td><td>3,90€</td><td>7,50€</td><td>12€</td><td>27€</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- APÉRITIFS -->
+  <div id="bois-aperitifs" class="section-title" data-i18n="sec-aperitifs">Apéritifs</div>
+  <div class="card">
+    <div class="item-row"><div class="item-left"><div class="item-name">Kir</div></div><div class="item-price">4,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Kir royal</div></div><div class="item-price">6,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Ricard / Pastis</div></div><div class="item-price">3,70€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Martini</div></div><div class="item-price">4,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Porto</div></div><div class="item-price">4,20€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Suze</div></div><div class="item-price">4,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Communard</div></div><div class="item-price">4,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">JB (4cl)</div></div><div class="item-price">6,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Chival (4cl)</div></div><div class="item-price">7,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Jack Daniel's (4cl)</div></div><div class="item-price">7,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Coupe de champagne</div></div><div class="item-price">6,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Bouteille de champagne</div></div><div class="item-price">42,00€</div></div>
+  </div>
+
+  <!-- COCKTAILS -->
+  <div id="bois-cocktails" class="section-title" data-i18n="sec-cocktails">Cocktails</div>
+  <div class="card">
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-avec-alcool">Avec alcool</div></div><div class="item-price">8,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-sans-alcool">Sans alcool</div></div><div class="item-price">6,00€</div></div>
+  </div>
+
+  <!-- EAUX -->
+  <div id="bois-eaux" class="section-title" data-i18n="sec-eaux">Eaux</div>
+  <div class="card">
+    <div class="item-row"><div class="item-left"><div class="item-name">Badoit rouge 33cl</div></div><div class="item-price">4,00€</div></div>
+    <div class="item-row">
+      <div class="item-left"><div class="item-name">San Pellegrino</div><div class="item-desc">50cl / 1 litre</div></div>
+      <div style="text-align:right;"><div class="item-price">3,50€</div><div class="item-price">4,50€</div></div>
+    </div>
+    <div class="item-row">
+      <div class="item-left"><div class="item-name">Badoit</div><div class="item-desc">50cl / 1 litre</div></div>
+      <div style="text-align:right;"><div class="item-price">3,50€</div><div class="item-price">4,50€</div></div>
+    </div>
+    <div class="item-row">
+      <div class="item-left"><div class="item-name">Evian</div><div class="item-desc">50cl / 1 litre</div></div>
+      <div style="text-align:right;"><div class="item-price">3,50€</div><div class="item-price">4,50€</div></div>
+    </div>
+  </div>
+
+  <!-- SODAS & JUS -->
+  <div id="bois-sodas" class="section-title" data-i18n="sec-sodas">Sodas &amp; Jus de fruits</div>
+  <div class="card">
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-sodas-name">Sodas</div>
+        <div class="item-desc" data-i18n="item-sodas-desc">Coca, Coca zéro, Orangina, Fuzetea pêche, Oasis, Sprite, Fanta orange, Schweppes agrume, Schweppes tonic</div>
+      </div>
+      <div class="item-price">4,50€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-jus-name">Jus de fruits</div>
+        <div class="item-desc" data-i18n="item-jus-desc">Orange, pomme, fraise, ananas, abricot, tomate, ACE</div>
+      </div>
+      <div class="item-price">4,50€</div>
+    </div>
+  </div>
+
+  <!-- BOISSONS CHAUDES -->
+  <div id="bois-chaudes" class="section-title" data-i18n="sec-chaudes">Boissons Chaudes</div>
+  <div class="card">
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-cafe">Café</div></div><div class="item-price">2,10€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-double-cafe">Double café</div></div><div class="item-price">4,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-decaf">Décaféiné</div></div><div class="item-price">2,70€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-noisette">Noisette</div></div><div class="item-price">2,50€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Cappuccino</div></div><div class="item-price">3,50€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-petit-creme">Petit crème</div></div><div class="item-price">3,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-grand-creme">Grand crème</div></div><div class="item-price">4,20€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-cafe-viennois">Café viennois</div></div><div class="item-price">4,50€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-choco-viennois">Chocolat viennois</div></div><div class="item-price">4,50€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-petit-choco">Petit chocolat</div></div><div class="item-price">2,60€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-the">Thé</div></div><div class="item-price">4,20€</div></div>
+  </div>
+
+</div><!-- /panel-boisson -->
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PANEL : DESSERT -->
+<!-- ══════════════════════════════════════════ -->
+<div id="panel-dessert" class="tab-panel">
+
+  <div class="section-title" data-i18n="sec-desserts">Desserts Maison</div>
+  <div class="card">
+    <div class="item-row"><div class="item-left"><div class="item-name">Tiramisu</div></div><div class="item-price">6,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Crème brûlée</div></div><div class="item-price">6,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Crème caramel</div></div><div class="item-price">4,90€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-mousse-choco">Mousse au chocolat</div></div><div class="item-price">5,90€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-mousse-choco-blanc">Mousse au chocolat blanc et framboises</div></div><div class="item-price">6,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name">Panna cotta</div></div><div class="item-price">4,50€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-fondant">Fondant au chocolat</div></div><div class="item-price">6,20€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-salade-fruits">Salade de fruits</div></div><div class="item-price">5,50€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-feuillete">Feuilleté framboises et chantilly</div></div><div class="item-price">5,50€</div></div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-tartes">Tartes</div>
+        <div class="item-desc" data-i18n="desc-tartes">Praline, citron meringuée, crumble fruits rouges, tarte du moment</div>
+      </div>
+      <div class="item-price">5,50€</div>
+    </div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-cafe-gourmand">Café gourmand</div></div><div class="item-price">7,00€</div></div>
+    <div class="item-row"><div class="item-left"><div class="item-name" data-i18n="item-the-gourmand">Thé gourmand</div></div><div class="item-price">8,00€</div></div>
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-coupe-glace">Coupe de glace</div>
+        <div class="item-desc" data-i18n="desc-coupe-glace">2 boules / 3 boules</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="item-price">4,00€</div>
+        <div class="item-price">5,00€</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title" data-i18n="sec-fromages">Fromages</div>
+  <div class="card">
+    <div class="item-row">
+      <div class="item-left">
+        <div class="item-name" data-i18n="item-fromage-blanc">Fromage blanc</div>
+        <div class="item-desc" data-i18n="desc-fromage-blanc">Crème ou coulis</div>
+      </div>
+      <div class="item-price">4,20€</div>
+    </div>
+    <div class="item-row">
+      <div class="item-left"><div class="item-name" data-i18n="item-saint-marcellin">Demi Saint-Marcellin</div></div>
+      <div class="item-price">4,50€</div>
+    </div>
+  </div>
+
+</div><!-- /panel-dessert -->
+
+</main>
+
+<script>
+const LANG = {
+  fr: {
+    'tab-menu':'Menu','tab-entree':'Entrée','tab-plat':'Plat','tab-boisson':'Boisson','tab-dessert':'Dessert',
+    'hdr-subtitle':'Du lundi au vendredi · Concocté par le Chef',
+    'sec-formules-jour':'Formules du Jour','sec-menu-brasserie':'Menu Brasserie','sec-menu-bistrot':'Menu Bistrot',
+    'sec-formule-zinc':'Formule Zinc','sec-formule-comptoir':'Formule Comptoir','sec-menu-enfant':'Menu Enfant',
+    'sec-salades':'Salades','sec-entrees':'Entrées','sec-viandes':'Viandes','sec-poissons':'Poissons',
+    'sec-pizzas':'Pizzas','sec-pates':'Pâtes','sec-bieres-pression':'Bières Pression','sec-vins':'Vins',
+    'sec-aperitifs':'Apéritifs','sec-cocktails':'Cocktails','sec-eaux':'Eaux',
+    'sec-sodas':'Sodas & Jus de fruits','sec-chaudes':'Boissons Chaudes',
+    'sec-desserts':'Desserts Maison','sec-fromages':'Fromages',
+    'fml-menu-jour-boisson':'Menu du jour + boisson + café','fml-menu-jour':'Menu du jour',
+    'fml-2-plats':'Menu 2 plats','fml-plat-jour':'Plat du jour',
+    'fml-brasserie':'Menu Brasserie','fml-bistrot':'Menu Bistrot',
+    'fml-zinc':'Formule Zinc','fml-zinc-sub':'1 plat au choix + boisson + dessert',
+    'fml-comptoir':'Formule Comptoir','fml-comptoir-sub':'1 plat au choix + boisson + dessert',
+    'fml-enfant':'Menu Enfant',
+    'pill-entree':'Entrée','pill-plat':'Plat','pill-dessert':'Dessert','pill-boisson':'Boisson','pill-ou':'— ou —',
+    'lbl-boisson-choix':'Boisson au choix','lbl-cafe-inclus':'+ 1 Café inclus',
+    'lbl-entrees-choix':'Entrées au choix','lbl-plats-choix':'Plats au choix',
+    'lbl-dessert-choix':'Dessert maison au choix',
+    'lbl-1plat-choix':'1 Plat au choix','lbl-1dessert-choix':'1 Dessert au choix',
+    'lbl-3plats':'3 plats — 29€','lbl-2plats':'2 plats — 27€',
+    'lbl-accompagnement':'+ accompagnement (voir carte)',
+    'note-cafe-gourmand':'Café gourmand supplément 2€',
+    'note-viandes':"* L'origine de nos viandes est affichée dans notre brasserie",
+    'note-enfant-age':"Jusqu'à 10 ans",
+    'fml-zinc-boisson-desc':'Badoit 33cl, Soda, Gallia 25cl ou Côtes du Rhône 12cl',
+    'fml-comptoir-boisson-desc':'Evian 50cl, Soda, Affligem 25cl ou Côtes du Rhône 12cl',
+    'sub-viande':'🥩 Viande','sub-poisson':'🐟 Poisson','sub-pizza':'🍕 Pizza','sub-pates':'🍝 Pâtes',
+    'sub-bieres':'🍺 Bières','sub-vins':'🍷 Vins','sub-aperitifs':'🥂 Apéritifs',
+    'sub-cocktails':'🍹 Cocktails','sub-eaux':'💧 Eaux','sub-sodas-jus':'🥤 Sodas & Jus','sub-chaudes':'☕ Chaudes',
+    'lbl-base-tomate':'Base Tomate','lbl-base-creme':'Base Crème',
+    'th-biere':'Bière','th-vin':'Vin','sub-rouges':'Rouges','sub-blancs':'Blancs','sub-rose':'Rosé',
+    'item-biere-du-moment':'Bière du moment','item-biere-sirop':'Bière sirop',
+    'item-panache':'Panaché','item-picon-biere':'Picon bière',
+    'item-avec-alcool':'Avec alcool','item-sans-alcool':'Sans alcool',
+    'item-sodas-name':'Sodas',
+    'item-sodas-desc':'Coca, Coca zéro, Orangina, Fuzetea pêche, Oasis, Sprite, Fanta orange, Schweppes agrume, Schweppes tonic',
+    'item-jus-name':'Jus de fruits','item-jus-desc':'Orange, pomme, fraise, ananas, abricot, tomate, ACE',
+    'item-cafe':'Café','item-double-cafe':'Double café','item-decaf':'Décaféiné','item-noisette':'Noisette',
+    'item-petit-creme':'Petit crème','item-grand-creme':'Grand crème',
+    'item-cafe-viennois':'Café viennois','item-choco-viennois':'Chocolat viennois',
+    'item-petit-choco':'Petit chocolat','item-the':'Thé',
+    'item-salade-lyonnaise':'Salade lyonnaise','desc-salade-lyonnaise':'Salade, lardons, oeuf poché, croûtons',
+    'item-salade-cesar':'Salade César','desc-salade-cesar':'Salade, poulet pané, parmesan, oeuf',
+    'item-salade-chirasi':'Salade Chirasi','desc-salade-chirasi':'Salade, avocat, saumon mariné, graines de sésame',
+    'item-salade-chevre':'Salade de chèvre pané',
+    'item-ravioles':'Ravioles','desc-ravioles':'Sauce aux bolets ou sauce tomate et basilic, salade verte',
+    'item-grosse-quiche':'Grosse quiche','item-salade-lentilles':'Petite salade de lentilles',
+    'item-saucisson-brioche':'Saucisson brioché','item-oeuf-meurette':'Oeuf meurette','item-terrine':'Terrine maison',
+    'item-faux-filet':'Faux-filet','item-entrecote':'Entrecôte',
+    'item-tartare':'Tartare de boeuf','desc-tartare':'180 g / 270 g','item-bavette':'Bavette',
+    'item-andouillette':"Andouillette sauce moutarde à l'ancienne",'desc-andouillette':'Gratin dauphinois',
+    'item-boeuf-bourguignon':'Boeuf bourguignon','desc-boeuf-bourguignon':'Tagliatelles',
+    'item-choucroute':'Choucroute garnie','item-tete-veau':'Tête de veau',
+    'item-saucisson-vin':'Saucisson au vin rouge','desc-saucisson-vin':'Lentilles',
+    'item-canette-cepes':'Filet de canette sauce aux cèpes','desc-canette-cepes':'Pommes de terre sautées, flan de légumes',
+    'item-escalope-veau':'Escalope de veau milanaise','desc-escalope-veau':'Frites maison',
+    'item-hamburger':'Hamburger du moment',
+    'item-hamburger-vege-html':'Hamburger végétarien <span class="badge badge-vege">végé</span>',
+    'item-fish-chips':'Fish &amp; Chips de cabillaud',
+    'item-brochet':'Filet de brochet sauce nantua','desc-brochet':'Pommes de terre sautées, flan de légumes',
+    'item-truite':'Filet de truite meunière','desc-truite':'Pommes de terre sautées, flan de légumes',
+    'desc-reine':"Tomate, fromage, jambon blanc, champignons, jaune d'oeuf",
+    'desc-deux-saumon':'Tomate, fromage, saumon frais, saumon fumé, crème',
+    'desc-quatre-fromage':'Tomate, taleggio, provolone, chèvre, gorgonzola',
+    'desc-margherita':'Tomate, mozzarella, basilic',
+    'desc-super-phoenix':"Tomate, chorizo, viande hachée, merguez, jaune d'oeuf",
+    'desc-deruelle':"Tomate, viande hachée, champignons, crème, jaune d'oeuf",
+    'desc-princesse':"Crème épaisse, fromage, jambon blanc, champignons, jaune d'oeuf",
+    'desc-nordique':"Crème épaisse, fromage, saumon frais, saumon fumé, jaune d'oeuf",
+    'desc-speciale-fromage':'Crème épaisse, taleggio, provolone, chèvre, gorgonzola',
+    'item-tagliatelles-carbonara':'Tagliatelles carbonara',
+    'item-tagliatelles-bolets':'Tagliatelles sauce aux bolets',
+    'item-tagliatelles-tomate-html':'Tagliatelles sauce tomate et basilic <span class="badge badge-vege">végé</span>',
+    'item-mousse-choco':'Mousse au chocolat','item-mousse-choco-blanc':'Mousse au chocolat blanc et framboises',
+    'item-fondant':'Fondant au chocolat','item-salade-fruits':'Salade de fruits',
+    'item-feuillete':'Feuilleté framboises et chantilly','item-tartes':'Tartes',
+    'desc-tartes':'Praline, citron meringuée, crumble fruits rouges, tarte du moment',
+    'item-cafe-gourmand':'Café gourmand','item-the-gourmand':'Thé gourmand',
+    'item-coupe-glace':'Coupe de glace','desc-coupe-glace':'2 boules / 3 boules',
+    'item-fromage-blanc':'Fromage blanc','desc-fromage-blanc':'Crème ou coulis',
+    'item-saint-marcellin':'Demi Saint-Marcellin',
+    'item-steak-frites':'Steak haché frites','item-glace-2boules':'Glace 2 boules',
+  },
+  en: {
+    'tab-menu':'Menu','tab-entree':'Starter','tab-plat':'Main','tab-boisson':'Drink','tab-dessert':'Dessert',
+    'hdr-subtitle':'Monday to Friday · Created by the Chef',
+    'sec-formules-jour':'Daily Set Menus','sec-menu-brasserie':'Brasserie Menu','sec-menu-bistrot':'Bistrot Menu',
+    'sec-formule-zinc':'Zinc Set Menu','sec-formule-comptoir':'Counter Set Menu','sec-menu-enfant':"Children's Menu",
+    'sec-salades':'Salads','sec-entrees':'Starters','sec-viandes':'Meat','sec-poissons':'Fish',
+    'sec-pizzas':'Pizzas','sec-pates':'Pasta','sec-bieres-pression':'Draft Beers','sec-vins':'Wines',
+    'sec-aperitifs':'Aperitifs','sec-cocktails':'Cocktails','sec-eaux':'Water',
+    'sec-sodas':'Sodas & Fruit Juices','sec-chaudes':'Hot Drinks',
+    'sec-desserts':'Homemade Desserts','sec-fromages':'Cheeses',
+    'fml-menu-jour-boisson':'Daily menu + drink + coffee','fml-menu-jour':'Daily menu',
+    'fml-2-plats':'2-course menu','fml-plat-jour':'Dish of the day',
+    'fml-brasserie':'Brasserie Menu','fml-bistrot':'Bistrot Menu',
+    'fml-zinc':'Zinc Set Menu','fml-zinc-sub':'1 main of your choice + drink + dessert',
+    'fml-comptoir':'Counter Set Menu','fml-comptoir-sub':'1 main of your choice + drink + dessert',
+    'fml-enfant':"Children's Menu",
+    'pill-entree':'Starter','pill-plat':'Main','pill-dessert':'Dessert','pill-boisson':'Drink','pill-ou':'— or —',
+    'lbl-boisson-choix':'Choice of drink','lbl-cafe-inclus':'+ 1 Coffee included',
+    'lbl-entrees-choix':'Choice of starter','lbl-plats-choix':'Choice of main',
+    'lbl-dessert-choix':'Choice of homemade dessert',
+    'lbl-1plat-choix':'1 Main of your choice','lbl-1dessert-choix':'1 Dessert of your choice',
+    'lbl-3plats':'3 courses — 29€','lbl-2plats':'2 courses — 27€',
+    'lbl-accompagnement':'+ side dish (see menu)',
+    'note-cafe-gourmand':'Gourmet coffee supplement 2€',
+    'note-viandes':'* The origin of our meats is displayed in our brasserie',
+    'note-enfant-age':'Up to 10 years old',
+    'fml-zinc-boisson-desc':'Badoit 33cl, Soda, Gallia 25cl or Côtes du Rhône 12cl',
+    'fml-comptoir-boisson-desc':'Evian 50cl, Soda, Affligem 25cl or Côtes du Rhône 12cl',
+    'sub-viande':'🥩 Meat','sub-poisson':'🐟 Fish','sub-pizza':'🍕 Pizza','sub-pates':'🍝 Pasta',
+    'sub-bieres':'🍺 Beers','sub-vins':'🍷 Wines','sub-aperitifs':'🥂 Aperitifs',
+    'sub-cocktails':'🍹 Cocktails','sub-eaux':'💧 Water','sub-sodas-jus':'🥤 Sodas & Juices','sub-chaudes':'☕ Hot Drinks',
+    'lbl-base-tomate':'Tomato Base','lbl-base-creme':'Cream Base',
+    'th-biere':'Beer','th-vin':'Wine','sub-rouges':'Reds','sub-blancs':'Whites','sub-rose':'Rosé',
+    'item-biere-du-moment':'Beer of the moment','item-biere-sirop':'Beer with syrup',
+    'item-panache':'Shandy','item-picon-biere':'Picon beer',
+    'item-avec-alcool':'With alcohol','item-sans-alcool':'Non-alcoholic',
+    'item-sodas-name':'Sodas',
+    'item-sodas-desc':'Coke, Diet Coke, Orangina, Fuzetea peach, Oasis, Sprite, Fanta orange, Schweppes citrus, Schweppes tonic',
+    'item-jus-name':'Fruit juices','item-jus-desc':'Orange, apple, strawberry, pineapple, apricot, tomato, ACE',
+    'item-cafe':'Espresso','item-double-cafe':'Double espresso','item-decaf':'Decaffeinated','item-noisette':'Espresso macchiato',
+    'item-petit-creme':'Small white coffee','item-grand-creme':'Large white coffee',
+    'item-cafe-viennois':'Viennese coffee','item-choco-viennois':'Viennese hot chocolate',
+    'item-petit-choco':'Small hot chocolate','item-the':'Tea',
+    'item-salade-lyonnaise':'Lyonnaise salad','desc-salade-lyonnaise':'Salad, bacon lardons, poached egg, croutons',
+    'item-salade-cesar':'Caesar salad','desc-salade-cesar':'Salad, breaded chicken, parmesan, egg',
+    'item-salade-chirasi':'Chirasi salad','desc-salade-chirasi':'Salad, avocado, marinated salmon, sesame seeds',
+    'item-salade-chevre':'Breaded goat cheese salad',
+    'item-ravioles':'Ravioles','desc-ravioles':'Porcini mushroom sauce or tomato and basil sauce, green salad',
+    'item-grosse-quiche':'Large quiche','item-salade-lentilles':'Small lentil salad',
+    'item-saucisson-brioche':'Sausage in brioche','item-oeuf-meurette':'Egg in red wine sauce','item-terrine':'Homemade terrine',
+    'item-faux-filet':'Sirloin steak','item-entrecote':'Rib-eye steak',
+    'item-tartare':'Beef tartare','desc-tartare':'180 g / 270 g','item-bavette':'Flank steak',
+    'item-andouillette':'Andouillette with old-style mustard sauce','desc-andouillette':'Potato gratin',
+    'item-boeuf-bourguignon':'Beef bourguignon','desc-boeuf-bourguignon':'Tagliatelle',
+    'item-choucroute':'Sauerkraut with meats','item-tete-veau':"Calf's head",
+    'item-saucisson-vin':'Sausage in red wine','desc-saucisson-vin':'Lentils',
+    'item-canette-cepes':'Duck breast with cep sauce','desc-canette-cepes':'Sautéed potatoes, vegetable flan',
+    'item-escalope-veau':'Veal escalope milanese','desc-escalope-veau':'Homemade fries',
+    'item-hamburger':'Burger of the moment',
+    'item-hamburger-vege-html':'Vegetarian burger <span class="badge badge-vege">veggie</span>',
+    'item-fish-chips':'Cod Fish &amp; Chips',
+    'item-brochet':'Pike fillet with Nantua sauce','desc-brochet':'Sautéed potatoes, vegetable flan',
+    'item-truite':'Trout fillet meunière','desc-truite':'Sautéed potatoes, vegetable flan',
+    'desc-reine':'Tomato, cheese, ham, mushrooms, egg yolk',
+    'desc-deux-saumon':'Tomato, cheese, fresh salmon, smoked salmon, cream',
+    'desc-quatre-fromage':'Tomato, taleggio, provolone, goat cheese, gorgonzola',
+    'desc-margherita':'Tomato, mozzarella, basil',
+    'desc-super-phoenix':'Tomato, chorizo, minced meat, merguez sausage, egg yolk',
+    'desc-deruelle':'Tomato, minced meat, mushrooms, cream, egg yolk',
+    'desc-princesse':'Thick cream, cheese, ham, mushrooms, egg yolk',
+    'desc-nordique':'Thick cream, cheese, fresh salmon, smoked salmon, egg yolk',
+    'desc-speciale-fromage':'Thick cream, taleggio, provolone, goat cheese, gorgonzola',
+    'item-tagliatelles-carbonara':'Tagliatelle carbonara',
+    'item-tagliatelles-bolets':'Tagliatelle with porcini mushroom sauce',
+    'item-tagliatelles-tomate-html':'Tagliatelle with tomato and basil sauce <span class="badge badge-vege">veggie</span>',
+    'item-mousse-choco':'Chocolate mousse','item-mousse-choco-blanc':'White chocolate and raspberry mousse',
+    'item-fondant':'Chocolate fondant','item-salade-fruits':'Fruit salad',
+    'item-feuillete':'Raspberry and chantilly pastry','item-tartes':'Tarts',
+    'desc-tartes':'Praline, lemon meringue, red berry crumble, tart of the day',
+    'item-cafe-gourmand':'Gourmet coffee','item-the-gourmand':'Gourmet tea',
+    'item-coupe-glace':'Ice cream cup','desc-coupe-glace':'2 scoops / 3 scoops',
+    'item-fromage-blanc':'Fromage blanc','desc-fromage-blanc':'Cream or coulis',
+    'item-saint-marcellin':'Half Saint-Marcellin',
+    'item-steak-frites':'Minced steak & fries','item-glace-2boules':'Ice cream 2 scoops',
+  },
+  es: {
+    'tab-menu':'Menú','tab-entree':'Entrada','tab-plat':'Plato','tab-boisson':'Bebida','tab-dessert':'Postre',
+    'hdr-subtitle':'De lunes a viernes · Creado por el Chef',
+    'sec-formules-jour':'Menús del Día','sec-menu-brasserie':'Menú Brasserie','sec-menu-bistrot':'Menú Bistrot',
+    'sec-formule-zinc':'Fórmula Zinc','sec-formule-comptoir':'Fórmula Comptoir','sec-menu-enfant':'Menú Infantil',
+    'sec-salades':'Ensaladas','sec-entrees':'Entradas','sec-viandes':'Carnes','sec-poissons':'Pescados',
+    'sec-pizzas':'Pizzas','sec-pates':'Pastas','sec-bieres-pression':'Cervezas de Barril','sec-vins':'Vinos',
+    'sec-aperitifs':'Aperitivos','sec-cocktails':'Cócteles','sec-eaux':'Aguas',
+    'sec-sodas':'Refrescos & Zumos','sec-chaudes':'Bebidas Calientes',
+    'sec-desserts':'Postres Caseros','sec-fromages':'Quesos',
+    'fml-menu-jour-boisson':'Menú del día + bebida + café','fml-menu-jour':'Menú del día',
+    'fml-2-plats':'Menú 2 platos','fml-plat-jour':'Plato del día',
+    'fml-brasserie':'Menú Brasserie','fml-bistrot':'Menú Bistrot',
+    'fml-zinc':'Fórmula Zinc','fml-zinc-sub':'1 plato a elegir + bebida + postre',
+    'fml-comptoir':'Fórmula Comptoir','fml-comptoir-sub':'1 plato a elegir + bebida + postre',
+    'fml-enfant':'Menú Infantil',
+    'pill-entree':'Entrada','pill-plat':'Plato','pill-dessert':'Postre','pill-boisson':'Bebida','pill-ou':'— o —',
+    'lbl-boisson-choix':'Bebida a elegir','lbl-cafe-inclus':'+ 1 Café incluido',
+    'lbl-entrees-choix':'Entrada a elegir','lbl-plats-choix':'Plato a elegir',
+    'lbl-dessert-choix':'Postre casero a elegir',
+    'lbl-1plat-choix':'1 Plato a elegir','lbl-1dessert-choix':'1 Postre a elegir',
+    'lbl-3plats':'3 platos — 29€','lbl-2plats':'2 platos — 27€',
+    'lbl-accompagnement':'+ acompañamiento (ver carta)',
+    'note-cafe-gourmand':'Café gourmand suplemento 2€',
+    'note-viandes':'* El origen de nuestras carnes está indicado en nuestra brasería',
+    'note-enfant-age':'Hasta 10 años',
+    'fml-zinc-boisson-desc':'Badoit 33cl, Refresco, Gallia 25cl o Côtes du Rhône 12cl',
+    'fml-comptoir-boisson-desc':'Evian 50cl, Refresco, Affligem 25cl o Côtes du Rhône 12cl',
+    'sub-viande':'🥩 Carne','sub-poisson':'🐟 Pescado','sub-pizza':'🍕 Pizza','sub-pates':'🍝 Pastas',
+    'sub-bieres':'🍺 Cervezas','sub-vins':'🍷 Vinos','sub-aperitifs':'🥂 Aperitivos',
+    'sub-cocktails':'🍹 Cócteles','sub-eaux':'💧 Aguas','sub-sodas-jus':'🥤 Refrescos & Zumos','sub-chaudes':'☕ Calientes',
+    'lbl-base-tomate':'Base Tomate','lbl-base-creme':'Base Nata',
+    'th-biere':'Cerveza','th-vin':'Vino','sub-rouges':'Tintos','sub-blancs':'Blancos','sub-rose':'Rosado',
+    'item-biere-du-moment':'Cerveza del momento','item-biere-sirop':'Cerveza con sirope',
+    'item-panache':'Panachado','item-picon-biere':'Cerveza Picon',
+    'item-avec-alcool':'Con alcohol','item-sans-alcool':'Sin alcohol',
+    'item-sodas-name':'Refrescos',
+    'item-sodas-desc':'Coca-Cola, Coca-Cola Zero, Orangina, Fuzetea melocotón, Oasis, Sprite, Fanta naranja, Schweppes limón, Schweppes tonic',
+    'item-jus-name':'Zumos de frutas','item-jus-desc':'Naranja, manzana, fresa, piña, albaricoque, tomate, ACE',
+    'item-cafe':'Café','item-double-cafe':'Café doble','item-decaf':'Descafeinado','item-noisette':'Café cortado',
+    'item-petit-creme':'Café con leche pequeño','item-grand-creme':'Café con leche grande',
+    'item-cafe-viennois':'Café vienés','item-choco-viennois':'Chocolate vienés',
+    'item-petit-choco':'Chocolate caliente','item-the':'Té',
+    'item-salade-lyonnaise':'Ensalada lionesa','desc-salade-lyonnaise':'Ensalada, tiras de bacon, huevo pochado, picatostes',
+    'item-salade-cesar':'Ensalada César','desc-salade-cesar':'Ensalada, pollo empanado, parmesano, huevo',
+    'item-salade-chirasi':'Ensalada Chirasi','desc-salade-chirasi':'Ensalada, aguacate, salmón marinado, semillas de sésamo',
+    'item-salade-chevre':'Ensalada de queso de cabra rebozado',
+    'item-ravioles':'Ravioles','desc-ravioles':'Salsa de boletos o salsa de tomate y albahaca, ensalada verde',
+    'item-grosse-quiche':'Quiche grande','item-salade-lentilles':'Ensaladita de lentejas',
+    'item-saucisson-brioche':'Salchichón en brioche','item-oeuf-meurette':'Huevo en salsa de vino tinto','item-terrine':'Terrina casera',
+    'item-faux-filet':'Solomillo','item-entrecote':'Entrecot',
+    'item-tartare':'Steak tartar','desc-tartare':'180 g / 270 g','item-bavette':'Falda de ternera',
+    'item-andouillette':'Andouillette con salsa de mostaza a la antigua','desc-andouillette':'Gratinado de patata',
+    'item-boeuf-bourguignon':'Ternera bourguignon','desc-boeuf-bourguignon':'Tallarines',
+    'item-choucroute':'Chucrut surtido','item-tete-veau':'Cabeza de ternera',
+    'item-saucisson-vin':'Salchichón al vino tinto','desc-saucisson-vin':'Lentejas',
+    'item-canette-cepes':'Pechuga de pato con salsa de setas','desc-canette-cepes':'Patatas salteadas, flan de verduras',
+    'item-escalope-veau':'Escalopa de ternera milanesa','desc-escalope-veau':'Patatas fritas caseras',
+    'item-hamburger':'Hamburguesa del momento',
+    'item-hamburger-vege-html':'Hamburguesa vegetariana <span class="badge badge-vege">veggie</span>',
+    'item-fish-chips':'Fish &amp; Chips de bacalao',
+    'item-brochet':'Filete de lucio con salsa nantua','desc-brochet':'Patatas salteadas, flan de verduras',
+    'item-truite':'Filete de trucha a la molinera','desc-truite':'Patatas salteadas, flan de verduras',
+    'desc-reine':'Tomate, queso, jamón dulce, champiñones, yema de huevo',
+    'desc-deux-saumon':'Tomate, queso, salmón fresco, salmón ahumado, nata',
+    'desc-quatre-fromage':'Tomate, taleggio, provolone, queso de cabra, gorgonzola',
+    'desc-margherita':'Tomate, mozzarella, albahaca',
+    'desc-super-phoenix':'Tomate, chorizo, carne picada, merguez, yema de huevo',
+    'desc-deruelle':'Tomate, carne picada, champiñones, nata, yema de huevo',
+    'desc-princesse':'Nata espesa, queso, jamón dulce, champiñones, yema de huevo',
+    'desc-nordique':'Nata espesa, queso, salmón fresco, salmón ahumado, yema de huevo',
+    'desc-speciale-fromage':'Nata espesa, taleggio, provolone, queso de cabra, gorgonzola',
+    'item-tagliatelles-carbonara':'Tallarines carbonara',
+    'item-tagliatelles-bolets':'Tallarines con salsa de boletos',
+    'item-tagliatelles-tomate-html':'Tallarines con salsa de tomate y albahaca <span class="badge badge-vege">veggie</span>',
+    'item-mousse-choco':'Mousse de chocolate','item-mousse-choco-blanc':'Mousse de chocolate blanco y frambuesas',
+    'item-fondant':'Coulant de chocolate','item-salade-fruits':'Macedonia de frutas',
+    'item-feuillete':'Hojaldre de frambuesas y nata chantilly','item-tartes':'Tartas',
+    'desc-tartes':'Praliné, limón merengado, crumble de frutos rojos, tarta del momento',
+    'item-cafe-gourmand':'Café gourmand','item-the-gourmand':'Té gourmand',
+    'item-coupe-glace':'Copa de helado','desc-coupe-glace':'2 bolas / 3 bolas',
+    'item-fromage-blanc':'Fromage blanc','desc-fromage-blanc':'Nata o coulis',
+    'item-saint-marcellin':'Medio Saint-Marcellin',
+    'item-steak-frites':'Hamburguesa de ternera con patatas fritas','item-glace-2boules':'Helado 2 bolas',
+  },
+  it: {
+    'tab-menu':'Menu','tab-entree':'Antipasto','tab-plat':'Piatto','tab-boisson':'Bevanda','tab-dessert':'Dolce',
+    'hdr-subtitle':'Dal lunedì al venerdì · Creato dallo Chef',
+    'sec-formules-jour':'Menu del Giorno','sec-menu-brasserie':'Menu Brasserie','sec-menu-bistrot':'Menu Bistrot',
+    'sec-formule-zinc':'Formula Zinc','sec-formule-comptoir':'Formula Comptoir','sec-menu-enfant':'Menu Bambini',
+    'sec-salades':'Insalate','sec-entrees':'Antipasti','sec-viandes':'Carni','sec-poissons':'Pesci',
+    'sec-pizzas':'Pizze','sec-pates':'Pasta','sec-bieres-pression':'Birre alla Spina','sec-vins':'Vini',
+    'sec-aperitifs':'Aperitivi','sec-cocktails':'Cocktail','sec-eaux':'Acque',
+    'sec-sodas':'Bibite & Succhi di frutta','sec-chaudes':'Bevande Calde',
+    'sec-desserts':'Dolci Artigianali','sec-fromages':'Formaggi',
+    'fml-menu-jour-boisson':'Menu del giorno + bevanda + caffè','fml-menu-jour':'Menu del giorno',
+    'fml-2-plats':'Menu 2 portate','fml-plat-jour':'Piatto del giorno',
+    'fml-brasserie':'Menu Brasserie','fml-bistrot':'Menu Bistrot',
+    'fml-zinc':'Formula Zinc','fml-zinc-sub':'1 piatto a scelta + bevanda + dolce',
+    'fml-comptoir':'Formula Comptoir','fml-comptoir-sub':'1 piatto a scelta + bevanda + dolce',
+    'fml-enfant':'Menu Bambini',
+    'pill-entree':'Antipasto','pill-plat':'Piatto','pill-dessert':'Dolce','pill-boisson':'Bevanda','pill-ou':'— o —',
+    'lbl-boisson-choix':'Bevanda a scelta','lbl-cafe-inclus':'+ 1 Caffè incluso',
+    'lbl-entrees-choix':'Antipasto a scelta','lbl-plats-choix':'Piatto a scelta',
+    'lbl-dessert-choix':'Dolce artigianale a scelta',
+    'lbl-1plat-choix':'1 Piatto a scelta','lbl-1dessert-choix':'1 Dolce a scelta',
+    'lbl-3plats':'3 portate — 29€','lbl-2plats':'2 portate — 27€',
+    'lbl-accompagnement':'+ contorno (vedi carta)',
+    'note-cafe-gourmand':'Caffè gourmand supplemento 2€',
+    'note-viandes':"* L'origine delle nostre carni è indicata nella nostra brasserie",
+    'note-enfant-age':'Fino a 10 anni',
+    'fml-zinc-boisson-desc':'Badoit 33cl, Bibita, Gallia 25cl o Côtes du Rhône 12cl',
+    'fml-comptoir-boisson-desc':'Evian 50cl, Bibita, Affligem 25cl o Côtes du Rhône 12cl',
+    'sub-viande':'🥩 Carne','sub-poisson':'🐟 Pesce','sub-pizza':'🍕 Pizza','sub-pates':'🍝 Pasta',
+    'sub-bieres':'🍺 Birre','sub-vins':'🍷 Vini','sub-aperitifs':'🥂 Aperitivi',
+    'sub-cocktails':'🍹 Cocktail','sub-eaux':'💧 Acque','sub-sodas-jus':'🥤 Bibite & Succhi','sub-chaudes':'☕ Calde',
+    'lbl-base-tomate':'Base Pomodoro','lbl-base-creme':'Base Panna',
+    'th-biere':'Birra','th-vin':'Vino','sub-rouges':'Rossi','sub-blancs':'Bianchi','sub-rose':'Rosato',
+    'item-biere-du-moment':'Birra del momento','item-biere-sirop':'Birra con sciroppo',
+    'item-panache':'Birra mista','item-picon-biere':'Birra Picon',
+    'item-avec-alcool':'Con alcool','item-sans-alcool':'Senza alcool',
+    'item-sodas-name':'Bibite',
+    'item-sodas-desc':'Coca-Cola, Coca-Cola Zero, Orangina, Fuzetea pesca, Oasis, Sprite, Fanta arancia, Schweppes agrumi, Schweppes tonic',
+    'item-jus-name':'Succhi di frutta','item-jus-desc':'Arancia, mela, fragola, ananas, albicocca, pomodoro, ACE',
+    'item-cafe':'Caffè','item-double-cafe':'Doppio espresso','item-decaf':'Decaffeinato','item-noisette':'Caffè macchiato',
+    'item-petit-creme':'Caffè con latte piccolo','item-grand-creme':'Caffè con latte grande',
+    'item-cafe-viennois':'Caffè viennese','item-choco-viennois':'Cioccolata viennese',
+    'item-petit-choco':'Cioccolata calda','item-the':'Tè',
+    'item-salade-lyonnaise':'Insalata lionese','desc-salade-lyonnaise':'Insalata, lardons, uovo in camicia, crostini',
+    'item-salade-cesar':'Insalata Caesar','desc-salade-cesar':'Insalata, pollo impanato, parmigiano, uovo',
+    'item-salade-chirasi':'Insalata Chirasi','desc-salade-chirasi':'Insalata, avocado, salmone marinato, semi di sesamo',
+    'item-salade-chevre':'Insalata di caprino impanato',
+    'item-ravioles':'Ravioles','desc-ravioles':'Salsa ai porcini o salsa pomodoro e basilico, insalata verde',
+    'item-grosse-quiche':'Quiche grande','item-salade-lentilles':'Piccola insalata di lenticchie',
+    'item-saucisson-brioche':'Salsiccia in brioche','item-oeuf-meurette':'Uovo in salsa al vino rosso','item-terrine':'Terrina artigianale',
+    'item-faux-filet':'Controfiletto','item-entrecote':'Entrecôte',
+    'item-tartare':'Tartare di manzo','desc-tartare':'180 g / 270 g','item-bavette':'Bavetta di manzo',
+    'item-andouillette':'Andouillette con salsa di senape alla vecchia maniera','desc-andouillette':'Gratin di patate',
+    'item-boeuf-bourguignon':'Manzo alla borgognona','desc-boeuf-bourguignon':'Tagliatelle',
+    'item-choucroute':'Crauti guarniti','item-tete-veau':'Testina di vitello',
+    'item-saucisson-vin':'Salsiccia al vino rosso','desc-saucisson-vin':'Lenticchie',
+    'item-canette-cepes':"Petto d'anatra con salsa ai porcini",'desc-canette-cepes':'Patate saltate, sformato di verdure',
+    'item-escalope-veau':'Cotoletta di vitello alla milanese','desc-escalope-veau':'Patatine fritte fatte in casa',
+    'item-hamburger':'Hamburger del momento',
+    'item-hamburger-vege-html':'Hamburger vegetariano <span class="badge badge-vege">veggie</span>',
+    'item-fish-chips':'Fish &amp; Chips di merluzzo',
+    'item-brochet':'Filetto di luccio con salsa nantua','desc-brochet':'Patate saltate, sformato di verdure',
+    'item-truite':'Filetto di trota mugnaia','desc-truite':'Patate saltate, sformato di verdure',
+    'desc-reine':"Pomodoro, formaggio, prosciutto cotto, funghi, tuorlo d'uovo",
+    'desc-deux-saumon':'Pomodoro, formaggio, salmone fresco, salmone affumicato, panna',
+    'desc-quatre-fromage':'Pomodoro, taleggio, provolone, caprino, gorgonzola',
+    'desc-margherita':'Pomodoro, mozzarella, basilico',
+    'desc-super-phoenix':"Pomodoro, chorizo, carne macinata, merguez, tuorlo d'uovo",
+    'desc-deruelle':"Pomodoro, carne macinata, funghi, panna, tuorlo d'uovo",
+    'desc-princesse':"Panna densa, formaggio, prosciutto cotto, funghi, tuorlo d'uovo",
+    'desc-nordique':'Panna densa, formaggio, salmone fresco, salmone affumicato, tuorlo d\'uovo',
+    'desc-speciale-fromage':'Panna densa, taleggio, provolone, caprino, gorgonzola',
+    'item-tagliatelles-carbonara':'Tagliatelle alla carbonara',
+    'item-tagliatelles-bolets':'Tagliatelle ai porcini',
+    'item-tagliatelles-tomate-html':'Tagliatelle al pomodoro e basilico <span class="badge badge-vege">veggie</span>',
+    'item-mousse-choco':'Mousse al cioccolato','item-mousse-choco-blanc':'Mousse al cioccolato bianco e lamponi',
+    'item-fondant':'Tortino fondente al cioccolato','item-salade-fruits':'Macedonia di frutta',
+    'item-feuillete':'Sfoglia ai lamponi e chantilly','item-tartes':'Crostate',
+    'desc-tartes':'Praliné, limone meringato, crumble ai frutti di bosco, crostata del momento',
+    'item-cafe-gourmand':'Caffè gourmand','item-the-gourmand':'Tè gourmand',
+    'item-coupe-glace':'Coppa di gelato','desc-coupe-glace':'2 palline / 3 palline',
+    'item-fromage-blanc':'Fromage blanc','desc-fromage-blanc':'Panna o coulis',
+    'item-saint-marcellin':'Mezzo Saint-Marcellin',
+    'item-steak-frites':'Hamburger di manzo con patatine','item-glace-2boules':'Gelato 2 palline',
+  }
+};
+
+const LANG_LABELS = { fr:'🇫🇷 Français', en:'🇬🇧 English', es:'🇪🇸 Español', it:'🇮🇹 Italiano' };
+
+let currentLang = 'fr';
+
+function applyLang(lang) {
+  const t = LANG[lang];
+  if (!t) return;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  document.getElementById('lang-current').textContent = LANG_LABELS[lang];
+  document.querySelectorAll('.lang-menu button[data-lang]').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang;
+  currentLang = lang;
+}
+
+function toggleLangMenu() {
+  document.getElementById('lang-menu').classList.toggle('open');
+}
+
+function switchLang(lang) {
+  applyLang(lang);
+  document.getElementById('lang-menu').classList.remove('open');
+}
+
+document.addEventListener('click', function(e) {
+  const s = document.querySelector('.lang-switcher');
+  if (s && !s.contains(e.target)) document.getElementById('lang-menu').classList.remove('open');
+});
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  const btn = document.querySelector('.tab-btn[data-tab="' + name + '"]');
+  if (btn) btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function scrollToSection(id, btn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (btn) {
+    const panel = btn.closest('.tab-panel');
+    panel.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const navH = document.getElementById('tab-nav').offsetHeight;
+  const top = el.getBoundingClientRect().top + window.scrollY - navH - 10;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
